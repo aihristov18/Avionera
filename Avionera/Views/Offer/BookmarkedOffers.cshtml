@@ -1,0 +1,65 @@
+﻿@using Avionera.Data;
+@using Avionera.ViewModels
+@using Avionera.Extensions
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<AppUser> _um
+@model OfferBrowserViewModel
+
+@{
+    ViewData["Title"] = "Bookmarks";
+    var currentUser = await _um.GetUserAsync(User);
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Запазени оферти</h1>
+                    @if(User.IsInRole(UserRoles.TravelAgent) || User.IsInRole(UserRoles.Administrator))
+                    {
+                        <a type="button" class="btn btn-success" asp-controller="Offer" asp-action="CreateOffer" asp-route-id="@currentUser.Id">Създай оферта</a>
+                    }
+                </div>
+            </div>
+        </section>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    @foreach (var item in Model.Offers)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <img src="@item.ImageUrl" style="width: auto; height: 195px;">
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Title</h5>
+                                    <p class="card-text">
+                                        @item.Description.Chop(25)
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-info">@item.LocationName</small>
+                                        <small class="text-success">@item.Price.ToString("0.00") лв</small>
+                                        <small class="text-muted">@item.DateCreated.ToString("dd/MM/yyyy")</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <a class="btn btn-info" asp-controller="Offer" asp-action="Details" asp-route-id="@item.OfferId">Виж</a>
+                                        <form method="post" action="/Offer/RemoveBookmarkOffer">
+                                            <input type="hidden" name="offerId" value="@item.OfferId" />
+                                            <button type="submit" class="btn btn-danger">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

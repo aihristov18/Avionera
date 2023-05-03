@@ -1,0 +1,63 @@
+﻿@using Avionera.ViewModels;
+@model UserEditAdminViewModel
+
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+<div class="col-xl-8">
+    <div class="card mb-4">
+        <div class="card-header">Профил</div><div class="card-body">
+            <form method="post" enctype="multipart/form-data" asp-action="EditProfileAdmin">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.HiddenFor(m => m.Id)
+
+                <div class="mb-3">
+                    <label asp-for="UserName" class="small mb-1" for="inputUsername">Потребителско име</label>
+                    <input asp-for="UserName" class="form-control" id="inputUsername" type="text" placeholder="Въведи потребителско име">
+                </div>
+                <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="FirstName" class="small mb-1" for="inputFirstName">Име</label>
+                        <input asp-for="FirstName" class="form-control" id="inputFirstName" type="text" placeholder="Въведи име">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="MiddleName" class="small mb-1" for="inputFirstName">Бащино име</label>
+                        <input asp-for="MiddleName" class="form-control" id="inputFirstName" type="text" placeholder="Въведи бащино име">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="LastName" class="small mb-1" for="inputLastName">Фамилия</label>
+                        <input asp-for="LastName" class="form-control" id="inputLastName" type="text" placeholder="Въведи фамилия">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Email" class="small mb-1" for="inputEmailAddress">Ел. поща</label>
+                    <input asp-for="Email" class="form-control" id="inputEmailAddress" type="email" placeholder="Въведи ел. поща">
+                </div>
+                <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="small mb-1" for="inputPhone">Тел. номер</label>
+                        <input asp-for="PhoneNumber" class="form-control" id="inputPhone" type="tel" placeholder="Въведи тел. номер">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="CitizenNumber" class="small mb-1" for="inputPhone">ЕГН</label>
+                        <input asp-for="CitizenNumber" class="form-control" id="inputPhone" placeholder="Въведи ЕГН">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" asp-for="Image">Профилна снимка</label>
+                    <input type="file" class="form-control" name="Image">
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="AdminPassword" class="small mb-1" for="inputPass">Админска парола</label>
+                    <input asp-for="AdminPassword" class="form-control" id="inputPass" type="password" placeholder="Въведи админска парола">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-outline-success float-right" type="submit" value="Запазване" />
+                    <a class="btn btn-outline-secondary" onclick="history.go(-1)">Отказ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@using Avionera.Data
+@using Avionera.Interfaces;
+@using Avionera.ViewModels
+@using Avionera.Extensions
+@using Microsoft.AspNetCore.Identity;
+
+@inject IUnitOfWork _unitOfWork
+@inject UserManager<AppUser> _userManager
+@model OfferViewModel
+
+@{
+    var curUser = await _userManager.GetUserAsync(User);
+    ViewData["Title"] = Model.Title; 
+}
+
+<div class="container bootdey">
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <div class="pro-img-details">
+                        <img src="@Model.ImageUrl">
+                    </div>
+                </div>
+                <div class="col-md-6 p-2">
+                    <h4 class="pro-d-title">
+                        <a>
+                            @Model.Title
+                        </a>
+                    </h4>
+                    <p>
+                        @Model.Description
+                    </p>
+                    <div class="m-bot15"> 
+                        <strong>Цена : </strong> 
+                        <span class="pro-price"> @Model.Price.ToString("0.00") лв.</span>
+                    </div>
+                    <div class="m-bot15"> 
+                        <strong>Дата на качване: </strong> 
+                        <span>@Model.DateCreated.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <h4 class="pro-d-title">
+                        <a>
+                            Информация за автор
+                        </a>
+                    </h4>
+                    <div class="m-bot15">
+                        <strong>Име: </strong>
+                        <span>@Model.Creator.FirstName @Model.Creator.LastName</span>
+                    </div>
+                    <div class="m-bot15">
+                        <strong>Ел. поща: </strong>
+                        <span>@Model.Creator.Email</span>
+                    </div>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <div class="m-bot15">
+                            <strong>Тел. номер: </strong>
+                            <span>@Model.Creator.PhoneNumber</span>
+                        </div>
+                        @if (await _unitOfWork.UserOffers.IsUserOfferCreatorAsync(curUser.Id, Model.OfferId) || User.IsInRole(UserRoles.Administrator))
+                        {
+                            <div>
+                                <a class="btn btn-primary" asp-controller="Offer" asp-action="EditOffer" asp-route-id="@Model.OfferId">Редактирай оферта</a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

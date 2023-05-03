@@ -1,0 +1,42 @@
+﻿@using Avionera.ViewModels;
+@model OfferEditViewModel
+
+@{
+    ViewData["Title"] = "Edit offer";
+}
+
+<form method="post" enctype="multipart/form-data" asp-action="EditOffer">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(o => o.OfferId)
+    @Html.HiddenFor(o => o.DateCreated)
+    <div class="mb-3">
+        <label class="form-label" asp-for="Title">Заглавие</label>
+        <input class="form-control" asp-for="Title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Description">Описание</label>
+        <div>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="LocationName">Местоположение</label>
+        <input class="form-control" asp-for="LocationName">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Price">Цена</label>
+        <input class="form-control" asp-for="Price">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Image">Снимка</label>
+        <input type="file" class="form-control" name="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="IsDeleted"> Изтриване на офертата? </label>
+        <input asp-for="IsDeleted" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Запази</button>
+    <a class="btn btn-outline-secondary" onclick="history.go(-1)">Откажи</a>
+</form>
